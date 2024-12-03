@@ -29,7 +29,6 @@ public class CustomUserDetailsServiceTests {
     }
 
     @Test
-    @Disabled
     void loadUserByUsernameTest() {
         when(userRepository.findByUsername(ArgumentMatchers.anyString()))
                 .thenReturn(User.builder().username("vishal").password("awdf24asdv234").build());
