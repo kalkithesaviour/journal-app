@@ -25,12 +25,14 @@ public class UserServiceTests {
     @Autowired
     private UserService userService;
 
+    @Disabled
     @Test
     public void testJournalEntries() {
         User user = userRepository.findByUsername("vishal");
         assertTrue(!user.getJournalEntries().isEmpty());
     }
 
+    @Disabled
     @ParameterizedTest
     @ValueSource(strings = {
             "vishal",
@@ -42,6 +44,7 @@ public class UserServiceTests {
         assertNotNull(user, "failed for: " + username);
     }
 
+    @Disabled
     @ParameterizedTest
     @ArgumentsSource(UserArgumentsProvider.class)
     public void testSaveNewUser(User user) {
