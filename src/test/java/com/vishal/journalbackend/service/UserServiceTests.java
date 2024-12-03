@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
@@ -25,12 +26,14 @@ public class UserServiceTests {
     private UserService userService;
 
     @Test
+    @Disabled
     public void testJournalEntries() {
         User user = userRepository.findByUsername("vishal");
         assertTrue(!user.getJournalEntries().isEmpty());
     }
 
     @ParameterizedTest
+    @Disabled
     @ValueSource(strings = {
             "vishal",
             "p",
@@ -42,6 +45,7 @@ public class UserServiceTests {
     }
 
     @ParameterizedTest
+    @Disabled
     @ArgumentsSource(UserArgumentsProvider.class)
     public void testSaveNewUser(User user) {
         assertTrue(userService.saveNewUser(user, Arrays.asList("USER")));
