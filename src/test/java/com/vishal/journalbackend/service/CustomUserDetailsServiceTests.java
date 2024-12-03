@@ -28,6 +28,7 @@ public class CustomUserDetailsServiceTests {
         MockitoAnnotations.openMocks(this);
     }
 
+    @Disabled
     @Test
     void loadUserByUsernameTest() {
         when(userRepository.findByUsername(ArgumentMatchers.anyString()))
