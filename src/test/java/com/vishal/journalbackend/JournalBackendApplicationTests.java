@@ -8,6 +8,8 @@ class JournalBackendApplicationTests {
 
 	@Test
 	void contextLoads() {
+		// This test is automatically handled by Spring Boot.
+		// If the context loads without issues, it implies no configuration errors.
 	}
 
 }

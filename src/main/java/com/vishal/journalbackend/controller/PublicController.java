@@ -3,6 +3,7 @@ package com.vishal.journalbackend.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vishal.journalbackend.entity.User;
+import com.vishal.journalbackend.entity.UserDTO;
 import com.vishal.journalbackend.service.UserService;
 
 import java.util.Arrays;
@@ -19,8 +20,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/public")
 public class PublicController {
 
+    private final UserService userService;
+
     @Autowired
-    private UserService userService;
+    public PublicController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/health-check")
     public String healthCheck() {
@@ -28,8 +33,13 @@ public class PublicController {
     }
 
     @PostMapping("/create-user")
-    public ResponseEntity<String> createUser(@RequestBody User user) {
-        boolean isCreated = userService.saveNewUser(user, Arrays.asList("USER"));
+    public ResponseEntity<String> createUser(@RequestBody UserDTO userDTO) {
+        User user = new User();
+        user.setUsername(userDTO.getUsername());
+        user.setPassword(userDTO.getPassword());
+        user.setRoles(Arrays.asList("USER"));
+
+        boolean isCreated = userService.saveNewUser(user);
         if (isCreated) {
             return ResponseEntity.status(HttpStatus.CREATED).body("User created successfully.");
         } else {

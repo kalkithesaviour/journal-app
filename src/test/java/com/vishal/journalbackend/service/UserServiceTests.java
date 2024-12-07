@@ -3,9 +3,6 @@ package com.vishal.journalbackend.service;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.Arrays;
-
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
@@ -17,17 +14,20 @@ import com.vishal.journalbackend.entity.User;
 import com.vishal.journalbackend.repository.UserRepository;
 
 @SpringBootTest
-public class UserServiceTests {
+class UserServiceTests {
+
+    private final UserRepository userRepository;
+    private final UserService userService;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private UserService userService;
+    public UserServiceTests(UserRepository userRepository, UserService userService) {
+        this.userRepository = userRepository;
+        this.userService = userService;
+    }
 
     // @Disabled
     @Test
-    public void testJournalEntries() {
+    void testJournalEntries() {
         User user = userRepository.findByUsername("vishal");
         assertTrue(!user.getJournalEntries().isEmpty());
     }
@@ -39,7 +39,7 @@ public class UserServiceTests {
             "p",
             "mohit"
     })
-    public void testFindByUsername(String username) {
+    void testFindByUsername(String username) {
         User user = userRepository.findByUsername(username);
         assertNotNull(user, "failed for: " + username);
     }
@@ -47,8 +47,8 @@ public class UserServiceTests {
     // @Disabled
     @ParameterizedTest
     @ArgumentsSource(UserArgumentsProvider.class)
-    public void testSaveNewUser(User user) {
-        assertTrue(userService.saveNewUser(user, Arrays.asList("USER")));
+    void testSaveNewUser(User user) {
+        assertTrue(userService.saveNewUser(user));
     }
 
 }

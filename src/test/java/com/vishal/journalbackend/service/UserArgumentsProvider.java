@@ -1,5 +1,6 @@
 package com.vishal.journalbackend.service;
 
+import java.util.Arrays;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -13,8 +14,9 @@ public class UserArgumentsProvider implements ArgumentsProvider {
     @Override
     public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) throws Exception {
         return Stream.of(
-                Arguments.of(User.builder().username("coffee12").password("professorX").build()),
-                Arguments.of(User.builder().username("tea12").password("").build()));
+                Arguments.of(User.builder().username("coffee1234").password("professorX")
+                        .roles(Arrays.asList("USER", "ADMIN")).build()),
+                Arguments.of(User.builder().username("tea1234").password("").roles(Arrays.asList("USER")).build()));
     }
 
 }
