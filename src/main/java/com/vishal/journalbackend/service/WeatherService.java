@@ -1,6 +1,7 @@
 package com.vishal.journalbackend.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -10,7 +11,8 @@ import com.vishal.journalbackend.api.response.WeatherResponse;
 @Service
 public class WeatherService {
 
-    private static final String API_KEY = "d29db1f519c076ce73ff80ec7bfe18d7";
+    @Value("${weather.api.key}")
+    private String API_KEY;
 
     private static final String API = "http://api.weatherstack.com/current?access_key=API_KEY&query=CITY";
 
