@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.vishal.journalbackend.entity.JournalEntry;
 import com.vishal.journalbackend.entity.User;
+import com.vishal.journalbackend.exception.JournalEntryException;
 import com.vishal.journalbackend.repository.JournalEntryRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -18,11 +19,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class JournalEntryService {
 
-    @Autowired
-    private JournalEntryRepository journalEntryRepository;
+    private final JournalEntryRepository journalEntryRepository;
+    private final UserService userService;
 
     @Autowired
-    private UserService userService;
+    public JournalEntryService(JournalEntryRepository journalEntryRepository, UserService userService) {
+        this.journalEntryRepository = journalEntryRepository;
+        this.userService = userService;
+    }
 
     @Transactional
     public void saveEntry(JournalEntry journalEntry, User user) {
@@ -33,7 +37,7 @@ public class JournalEntryService {
             userService.saveUser(user);
         } catch (Exception e) {
             log.error(e.getMessage());
-            throw new RuntimeException("An error occurred while saving the entry!", e);
+            throw new JournalEntryException("An error occurred while saving the entry!", e);
         }
     }
 
@@ -60,7 +64,7 @@ public class JournalEntryService {
             }
         } catch (Exception e) {
             log.error(e.getMessage());
-            throw new RuntimeException("An error occurred while deleting the entry!", e);
+            throw new JournalEntryException("An error occurred while deleting the entry!", e);
         }
         return removed;
     }

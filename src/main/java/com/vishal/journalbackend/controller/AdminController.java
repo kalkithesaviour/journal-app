@@ -13,17 +13,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vishal.journalbackend.entity.User;
+import com.vishal.journalbackend.entity.UserDTO;
 import com.vishal.journalbackend.service.UserService;
 
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
 
+    private final UserService userService;
+
     @Autowired
-    private UserService userService;
+    public AdminController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/all-users")
-    public ResponseEntity<?> getAllUsers() {
+    public ResponseEntity<List<User>> getAllUsers() {
         List<User> allUsers = userService.getAll();
         if (allUsers != null && !allUsers.isEmpty()) {
             return ResponseEntity.ok(allUsers);
@@ -32,8 +37,13 @@ public class AdminController {
     }
 
     @PostMapping("/create-admin")
-    public ResponseEntity<String> createAdmin(@RequestBody User user) {
-        boolean isCreated = userService.saveNewUser(user, Arrays.asList("USER", "ADMIN"));
+    public ResponseEntity<String> createAdmin(@RequestBody UserDTO userDTO) {
+        User user = new User();
+        user.setUsername(userDTO.getUsername());
+        user.setPassword(userDTO.getPassword());
+        user.setRoles(Arrays.asList("USER", "ADMIN"));
+
+        boolean isCreated = userService.saveNewUser(user);
         if (isCreated) {
             return ResponseEntity.status(HttpStatus.CREATED).body("Admin created successfully.");
         } else {

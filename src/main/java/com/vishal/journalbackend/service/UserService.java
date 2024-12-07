@@ -18,19 +18,22 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UserService {
 
+    private final UserRepository userRepository;
+
     @Autowired
-    private UserRepository userRepository;
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public boolean saveNewUser(User user, List<String> roles) {
+    public boolean saveNewUser(User user) {
         try {
             String username = user.getUsername();
             if (existsByUsername(username)) {
                 throw new IllegalArgumentException("User with username: '" + username + "' already exists.");
             }
             user.setPassword(passwordEncoder.encode(user.getPassword()));
-            user.setRoles(roles);
             userRepository.save(user);
             return true;
         } catch (Exception e) {
