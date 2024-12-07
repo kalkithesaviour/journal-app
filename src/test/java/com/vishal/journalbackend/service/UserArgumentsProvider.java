@@ -14,9 +14,9 @@ public class UserArgumentsProvider implements ArgumentsProvider {
     @Override
     public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) throws Exception {
         return Stream.of(
-                Arguments.of(User.builder().username("coffee1234").password("professorX")
+                Arguments.of(User.builder().username("coffee12345").password("professorX")
                         .roles(Arrays.asList("USER", "ADMIN")).build()),
-                Arguments.of(User.builder().username("tea1234").password("").roles(Arrays.asList("USER")).build()));
+                Arguments.of(User.builder().username("tea12345").password("").roles(Arrays.asList("USER")).build()));
     }
 
 }
