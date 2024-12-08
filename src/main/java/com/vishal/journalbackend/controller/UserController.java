@@ -79,7 +79,7 @@ public class UserController {
         String weather = "";
         WeatherResponse weatherResponse = weatherService.getWeather("Mumbai");
         if (weatherResponse != null) {
-            weather = " Weather feels like " + weatherResponse.getCurrent().getFeelslike() + " degrees.";
+            weather = " Weather feels like " + weatherResponse.getCurrent().getFeelslike() + " degree Celsius.";
         }
 
         return ResponseEntity.status(HttpStatus.OK).body("Hi " + username + "!" + weather);

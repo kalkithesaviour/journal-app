@@ -7,24 +7,28 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.vishal.journalbackend.api.response.WeatherResponse;
+import com.vishal.journalbackend.cache.AppCache;
+import com.vishal.journalbackend.constant.Placeholders;
 
 @Service
 public class WeatherService {
 
     @Value("${weather.api.key}")
-    private String API_KEY;
-
-    private static final String API = "http://api.weatherstack.com/current?access_key=API_KEY&query=CITY";
+    private String apiKey;
 
     private final RestTemplate restTemplate;
+    private final AppCache appCache;
 
     @Autowired
-    public WeatherService(RestTemplate restTemplate) {
+    public WeatherService(RestTemplate restTemplate, AppCache appCache) {
         this.restTemplate = restTemplate;
+        this.appCache = appCache;
     }
 
     public WeatherResponse getWeather(String city) {
-        String finalAPI = API.replace("CITY", city).replace("API_KEY", API_KEY);
+        String finalAPI = appCache.getAppCacheMap().get(AppCache.keys.WEATHER_API_KEY.toString())
+                .replace(Placeholders.CITY, city)
+                .replace(Placeholders.API_KEY, apiKey);
         return restTemplate.exchange(finalAPI, HttpMethod.GET, null, WeatherResponse.class).getBody();
     }
 

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vishal.journalbackend.cache.AppCache;
 import com.vishal.journalbackend.entity.User;
 import com.vishal.journalbackend.entity.UserDTO;
 import com.vishal.journalbackend.service.UserService;
@@ -21,10 +22,12 @@ import com.vishal.journalbackend.service.UserService;
 public class AdminController {
 
     private final UserService userService;
+    private final AppCache appCache;
 
     @Autowired
-    public AdminController(UserService userService) {
+    public AdminController(UserService userService, AppCache appCache) {
         this.userService = userService;
+        this.appCache = appCache;
     }
 
     @GetMapping("/all-users")
@@ -50,6 +53,11 @@ public class AdminController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("Failed to create admin. Please check the input data.");
         }
+    }
+
+    @GetMapping("/clear-app-cache")
+    public void clearAppCache() {
+        appCache.init();
     }
 
 }
