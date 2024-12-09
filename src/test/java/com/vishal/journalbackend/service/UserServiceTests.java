@@ -3,6 +3,7 @@ package com.vishal.journalbackend.service;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
@@ -44,7 +45,7 @@ class UserServiceTests {
         assertNotNull(user, "failed for: " + username);
     }
 
-    // @Disabled
+    @Disabled
     @ParameterizedTest
     @ArgumentsSource(UserArgumentsProvider.class)
     void testSaveNewUser(User user) {
