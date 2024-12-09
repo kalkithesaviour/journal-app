@@ -17,10 +17,6 @@ import lombok.Getter;
 @Getter
 public class AppCache {
 
-    public enum keys {
-        WEATHER_API_KEY
-    }
-
     private final ConfigJournalAppRepository configJournalAppRepository;
 
     @Autowired

@@ -9,6 +9,7 @@ import org.springframework.web.client.RestTemplate;
 import com.vishal.journalbackend.api.response.WeatherResponse;
 import com.vishal.journalbackend.cache.AppCache;
 import com.vishal.journalbackend.constant.Placeholders;
+import com.vishal.journalbackend.enums.Key;
 
 @Service
 public class WeatherService {
@@ -26,7 +27,7 @@ public class WeatherService {
     }
 
     public WeatherResponse getWeather(String city) {
-        String finalAPI = appCache.getAppCacheMap().get(AppCache.keys.WEATHER_API_KEY.toString())
+        String finalAPI = appCache.getAppCacheMap().get(Key.WEATHER_API_KEY.toString())
                 .replace(Placeholders.CITY, city)
                 .replace(Placeholders.API_KEY, apiKey);
         return restTemplate.exchange(finalAPI, HttpMethod.GET, null, WeatherResponse.class).getBody();

@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.vishal.journalbackend.enums.Sentiment;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,5 +31,7 @@ public class JournalEntry {
 
     @Builder.Default
     private LocalDateTime date = LocalDateTime.now();
+
+    private Sentiment sentiment;
 
 }
