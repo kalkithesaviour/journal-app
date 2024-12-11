@@ -19,18 +19,28 @@ public class WeatherService {
 
     private final RestTemplate restTemplate;
     private final AppCache appCache;
+    private final RedisService redisService;
 
     @Autowired
-    public WeatherService(RestTemplate restTemplate, AppCache appCache) {
+    public WeatherService(RestTemplate restTemplate, AppCache appCache, RedisService redisService) {
         this.restTemplate = restTemplate;
         this.appCache = appCache;
+        this.redisService = redisService;
     }
 
     public WeatherResponse getWeather(String city) {
+        WeatherResponse weatherResponse = redisService.get("weather_of_" + city, WeatherResponse.class);
+        if (weatherResponse != null) {
+            return weatherResponse;
+        }
         String finalAPI = appCache.getAppCacheMap().get(Key.WEATHER_API_KEY.toString())
                 .replace(Placeholders.CITY, city)
                 .replace(Placeholders.API_KEY, apiKey);
-        return restTemplate.exchange(finalAPI, HttpMethod.GET, null, WeatherResponse.class).getBody();
+        weatherResponse = restTemplate.exchange(finalAPI, HttpMethod.GET, null, WeatherResponse.class).getBody();
+        if (weatherResponse != null) {
+            redisService.set("weather_of_" + city, weatherResponse, 300L);
+        }
+        return weatherResponse;
     }
 
 }
