@@ -29,7 +29,7 @@ public class UserScheduler {
         this.appCache = appCache;
     }
 
-    @Scheduled(cron = "0 0 9 ? * SUN *")
+    @Scheduled(cron = "0 0 9 ? * SUN")
     public void fetchUsersAndSendSaMail() {
         List<User> users = userRepositoryImpl.getUsersForSentimentAnalysis();
         for (User user : users) {
@@ -61,7 +61,7 @@ public class UserScheduler {
         }
     }
 
-    @Scheduled(cron = "0 0/10 * 1/1 * ? *")
+    @Scheduled(cron = "0 0/10 * 1/1 * ?")
     public void clearAppCache() {
         appCache.init();
     }
