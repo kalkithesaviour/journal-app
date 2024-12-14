@@ -6,6 +6,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -13,23 +14,24 @@ import com.vishal.journalbackend.cache.AppCache;
 import com.vishal.journalbackend.entity.JournalEntry;
 import com.vishal.journalbackend.entity.User;
 import com.vishal.journalbackend.enums.Sentiment;
+import com.vishal.journalbackend.model.SentimentData;
 import com.vishal.journalbackend.repository.UserRepositoryImpl;
-import com.vishal.journalbackend.service.EmailService;
 
 @Component
 public class UserScheduler {
 
-    private final EmailService emailService;
     private final UserRepositoryImpl userRepositoryImpl;
     private final AppCache appCache;
+    private final KafkaTemplate<String, SentimentData> kafkaTemplate;
 
-    public UserScheduler(EmailService emailService, UserRepositoryImpl userRepositoryImpl, AppCache appCache) {
-        this.emailService = emailService;
+    public UserScheduler(UserRepositoryImpl userRepositoryImpl, AppCache appCache,
+            KafkaTemplate<String, SentimentData> kafkaTemplate) {
         this.userRepositoryImpl = userRepositoryImpl;
         this.appCache = appCache;
+        this.kafkaTemplate = kafkaTemplate;
     }
 
-    @Scheduled(cron = "0 0 9 ? * SUN")
+    @Scheduled(cron = "0 0 9 * * SUN")
     public void fetchUsersAndSendSaMail() {
         List<User> users = userRepositoryImpl.getUsersForSentimentAnalysis();
         for (User user : users) {
@@ -55,13 +57,14 @@ public class UserScheduler {
             }
 
             if (mostFrequentSentiment != null) {
-                emailService.sendEmail(user.getEmail(), "Sentiment for the last 7 days",
-                        mostFrequentSentiment.toString());
+                SentimentData sentimentData = SentimentData.builder().email(user.getEmail())
+                        .sentiment("Sentiment for the last 7 days: " + mostFrequentSentiment).build();
+                kafkaTemplate.send("weekly-sentiments", sentimentData.getEmail(), sentimentData);
             }
         }
     }
 
-    @Scheduled(cron = "0 0/10 * 1/1 * ?")
+    @Scheduled(cron = "0 0/10 * ? * *")
     public void clearAppCache() {
         appCache.init();
     }

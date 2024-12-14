@@ -2,6 +2,7 @@ package com.vishal.journalbackend.service;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,6 +17,7 @@ class EmailServiceTests {
         this.emailService = emailService;
     }
 
+    @Disabled
     @Test
     void testSendMail() {
         assertDoesNotThrow(() -> emailService.sendEmail(

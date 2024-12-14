@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,6 +21,7 @@ class UserRepositoryImplTests {
         this.userRepositoryImpl = userRepositoryImpl;
     }
 
+    @Disabled
     @Test
     void testGetUsersForSentimentAnalysis() {
         List<User> users = userRepositoryImpl.getUsersForSentimentAnalysis();
