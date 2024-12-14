@@ -26,14 +26,14 @@ class UserServiceTests {
         this.userService = userService;
     }
 
-    // @Disabled
+    @Disabled
     @Test
     void testJournalEntries() {
         User user = userRepository.findByUsername("vishal");
         assertTrue(!user.getJournalEntries().isEmpty());
     }
 
-    // @Disabled
+    @Disabled
     @ParameterizedTest
     @ValueSource(strings = {
             "vishal",

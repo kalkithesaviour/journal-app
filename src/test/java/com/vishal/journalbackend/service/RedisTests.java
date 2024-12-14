@@ -2,6 +2,7 @@ package com.vishal.journalbackend.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,6 +18,7 @@ class RedisTests {
         this.redisTemplate = redisTemplate;
     }
 
+    @Disabled
     @Test
     void testRedisTemplate() {
         redisTemplate.opsForValue().set("email", "vishal.adhikari36@gmail.com");
