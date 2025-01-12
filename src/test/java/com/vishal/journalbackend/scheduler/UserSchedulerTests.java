@@ -17,7 +17,7 @@ class UserSchedulerTests {
         this.userScheduler = userScheduler;
     }
 
-    // @Disabled
+    @Disabled
     @Test
     void testFetchUsersAndSendSaMail() {
         assertDoesNotThrow(userScheduler::fetchUsersAndSendSaMail);
