@@ -4,13 +4,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.vishal.journalbackend.entity.User;
 import com.vishal.journalbackend.entity.UserDTO;
+import com.vishal.journalbackend.service.CustomUserDetailsService;
 import com.vishal.journalbackend.service.UserService;
+import com.vishal.journalbackend.util.JwtUtil;
+
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,13 +25,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
 @RequestMapping("/public")
+@Slf4j
 public class PublicController {
 
     private final UserService userService;
+    private final AuthenticationManager authenticationManager;
+    private final CustomUserDetailsService customUserDetailsService;
+    private final JwtUtil jwtUtil;
 
     @Autowired
-    public PublicController(UserService userService) {
+    public PublicController(UserService userService, AuthenticationManager authenticationManager,
+            CustomUserDetailsService customUserDetailsService, JwtUtil jwtUtil) {
         this.userService = userService;
+        this.authenticationManager = authenticationManager;
+        this.customUserDetailsService = customUserDetailsService;
+        this.jwtUtil = jwtUtil;
     }
 
     @GetMapping("/health-check")
@@ -32,7 +47,7 @@ public class PublicController {
         return "OK";
     }
 
-    @PostMapping("/create-user")
+    @PostMapping("/signup")
     public ResponseEntity<String> createUser(@RequestBody UserDTO userDTO) {
         User user = new User();
         user.setUsername(userDTO.getUsername());
@@ -45,6 +60,21 @@ public class PublicController {
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("User with username: '" + user.getUsername() + "' already exists.");
+        }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody UserDTO userDTO) {
+        try {
+            authenticationManager
+                    .authenticate(
+                            new UsernamePasswordAuthenticationToken(userDTO.getUsername(), userDTO.getPassword()));
+            UserDetails userDetails = customUserDetailsService.loadUserByUsername(userDTO.getUsername());
+            String jwt = jwtUtil.generateToken(userDetails.getUsername());
+            return ResponseEntity.status(HttpStatus.OK).body(jwt);
+        } catch (Exception e) {
+            log.error("Exception occurred while authenticating token: ", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Incorrect username or password!");
         }
     }
 
