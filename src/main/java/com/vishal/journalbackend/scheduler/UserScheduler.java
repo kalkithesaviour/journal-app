@@ -16,6 +16,7 @@ import com.vishal.journalbackend.entity.User;
 import com.vishal.journalbackend.enums.Sentiment;
 import com.vishal.journalbackend.model.SentimentData;
 import com.vishal.journalbackend.repository.UserRepositoryImpl;
+import com.vishal.journalbackend.service.EmailService;
 
 @Component
 public class UserScheduler {
@@ -23,12 +24,14 @@ public class UserScheduler {
     private final UserRepositoryImpl userRepositoryImpl;
     private final AppCache appCache;
     private final KafkaTemplate<String, SentimentData> kafkaTemplate;
+    private final EmailService emailService;
 
     public UserScheduler(UserRepositoryImpl userRepositoryImpl, AppCache appCache,
-            KafkaTemplate<String, SentimentData> kafkaTemplate) {
+            KafkaTemplate<String, SentimentData> kafkaTemplate, EmailService emailService) {
         this.userRepositoryImpl = userRepositoryImpl;
         this.appCache = appCache;
         this.kafkaTemplate = kafkaTemplate;
+        this.emailService = emailService;
     }
 
     @Scheduled(cron = "0 0 9 * * SUN")
@@ -59,7 +62,12 @@ public class UserScheduler {
             if (mostFrequentSentiment != null) {
                 SentimentData sentimentData = SentimentData.builder().email(user.getEmail())
                         .sentiment("Sentiment for the last 7 days: " + mostFrequentSentiment).build();
-                kafkaTemplate.send("weekly-sentiments", sentimentData.getEmail(), sentimentData);
+                try {
+                    kafkaTemplate.send("weekly-sentiments", sentimentData.getEmail(), sentimentData);
+                } catch (Exception e) {
+                    emailService.sendEmail(sentimentData.getEmail(), "Sentiment for previous week",
+                            sentimentData.getSentiment());
+                }
             }
         }
     }
