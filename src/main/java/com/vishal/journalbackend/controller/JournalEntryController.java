@@ -14,11 +14,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vishal.journalbackend.dto.JournalEntryDTO;
 import com.vishal.journalbackend.entity.JournalEntry;
-import com.vishal.journalbackend.entity.JournalEntryDTO;
 import com.vishal.journalbackend.entity.User;
 import com.vishal.journalbackend.service.JournalEntryService;
 import com.vishal.journalbackend.service.UserService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -26,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/journal")
+@Tag(name = "Journal APIs", description = "Read, Create, Update, and Delete journal entries")
 public class JournalEntryController {
 
     private static final String JOURNAL_ENTRY_NOT_FOUND = "Journal entry not found with id: ";
@@ -42,6 +46,7 @@ public class JournalEntryController {
     }
 
     @GetMapping
+    @Operation(summary = "Get all journal entries of a user")
     public ResponseEntity<List<JournalEntry>> getAllJournalEntriesOfUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
@@ -54,6 +59,7 @@ public class JournalEntryController {
     }
 
     @PostMapping
+    @Operation(summary = "Create a journal entry")
     public ResponseEntity<Object> createEntry(@RequestBody JournalEntryDTO entryDTO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
@@ -62,6 +68,7 @@ public class JournalEntryController {
         JournalEntry entry = new JournalEntry();
         entry.setTitle(entryDTO.getTitle());
         entry.setContent(entryDTO.getContent());
+        entry.setSentiment(entryDTO.getSentiment());
 
         try {
             journalEntryService.saveEntry(entry, user);
@@ -72,6 +79,7 @@ public class JournalEntryController {
     }
 
     @GetMapping("/id/{id}")
+    @Operation(summary = "Get a journal entry by its ID")
     public ResponseEntity<Object> getJournalEntryById(@PathVariable String id) {
         try {
             ObjectId objectId = new ObjectId(id);
@@ -91,6 +99,7 @@ public class JournalEntryController {
     }
 
     @DeleteMapping("/id/{id}")
+    @Operation(summary = "Delete a journal entry by its ID")
     public ResponseEntity<Object> deleteJournalEntryById(@PathVariable String id) {
         try {
             ObjectId objectId = new ObjectId(id);
@@ -109,6 +118,7 @@ public class JournalEntryController {
     }
 
     @PutMapping("/id/{id}")
+    @Operation(summary = "Update a journal entry by its ID")
     public ResponseEntity<Object> updateJournalEntryById(@PathVariable String id,
             @RequestBody JournalEntryDTO newEntryDTO) {
         try {
@@ -121,16 +131,17 @@ public class JournalEntryController {
             if (!journalEntries.isEmpty()) {
                 JournalEntry oldEntry = journalEntries.get(0);
 
-                JournalEntry newEntry = new JournalEntry();
-                newEntry.setTitle(newEntryDTO.getTitle());
-                newEntry.setContent(newEntryDTO.getContent());
-
-                oldEntry.setTitle((newEntry.getTitle() != null &&
-                        !newEntry.getTitle().isEmpty()) ? newEntry.getTitle()
+                oldEntry.setTitle((newEntryDTO.getTitle() != null &&
+                        !newEntryDTO.getTitle().isEmpty()) ? newEntryDTO.getTitle()
                                 : oldEntry.getTitle());
                 oldEntry.setContent(
-                        (newEntry.getContent() != null && !newEntry.getContent().isEmpty()) ? newEntry.getContent()
+                        (newEntryDTO.getContent() != null && !newEntryDTO.getContent().isEmpty())
+                                ? newEntryDTO.getContent()
                                 : oldEntry.getContent());
+                oldEntry.setSentiment(
+                        (newEntryDTO.getSentiment() != null && !newEntryDTO.getSentiment().toString().isEmpty())
+                                ? newEntryDTO.getSentiment()
+                                : oldEntry.getSentiment());
                 journalEntryService.saveEntry(oldEntry);
                 return ResponseEntity.ok(oldEntry);
             }

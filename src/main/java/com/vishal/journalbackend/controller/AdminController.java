@@ -14,11 +14,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.vishal.journalbackend.cache.AppCache;
 import com.vishal.journalbackend.entity.User;
-import com.vishal.journalbackend.entity.UserDTO;
+import com.vishal.journalbackend.dto.UserDTO;
 import com.vishal.journalbackend.service.UserService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/admin")
+@Tag(name = "Admin APIs", description = "Read all users, Create admin, and clear app-cache")
 public class AdminController {
 
     private final UserService userService;
@@ -31,6 +35,7 @@ public class AdminController {
     }
 
     @GetMapping("/all-users")
+    @Operation(summary = "Retrieve all users")
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> allUsers = userService.getAll();
         if (allUsers != null && !allUsers.isEmpty()) {
@@ -40,10 +45,13 @@ public class AdminController {
     }
 
     @PostMapping("/create-admin")
+    @Operation(summary = "Create a new Admin")
     public ResponseEntity<String> createAdmin(@RequestBody UserDTO userDTO) {
         User user = new User();
         user.setUsername(userDTO.getUsername());
         user.setPassword(userDTO.getPassword());
+        user.setEmail(userDTO.getEmail());
+        user.setSentimentAnalysis(userDTO.getSentimentAnalysis());
         user.setRoles(Arrays.asList("USER", "ADMIN"));
 
         boolean isCreated = userService.saveNewUser(user);
@@ -56,6 +64,7 @@ public class AdminController {
     }
 
     @GetMapping("/clear-app-cache")
+    @Operation(summary = "Clear the app cache")
     public void clearAppCache() {
         appCache.init();
     }

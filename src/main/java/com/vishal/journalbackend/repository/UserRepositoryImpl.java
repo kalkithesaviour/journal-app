@@ -6,11 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
 
 import com.vishal.journalbackend.entity.User;
 
 import lombok.extern.slf4j.Slf4j;
 
+@Component
 @Slf4j
 public class UserRepositoryImpl {
 
