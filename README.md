@@ -84,18 +84,22 @@ Back-end application built with Java, Spring Boot, and MongoDB, designed to secu
 
 ![](src/main/resources/static/images/oauth2.png)
 
-#### Confluent Cloud : Messages consumed from the 'weekly-sentiments' topic -
+### Confluent Cloud : Messages consumed from the 'weekly-sentiments' topic -
+<br>
 
 ![](src/main/resources/static/images/kafka.png)
 
-#### Sentiment analysis of last week's journal entries sent via email to opted users -
+### Sentiment analysis of last week's journal entries sent via email to opted users -
+<br>
 
 ![](src/main/resources/static/images/sentimentmail.png)
 
-#### MongoDB Atlas : 'journal_db' Database and its Collections -
+### MongoDB Atlas : 'journal_db' Database and its Collections -
+<br>
 
 ![](src/main/resources/static/images/mongoatlas.png)
 
-#### Redis Cloud : Reducing latency by caching city weather-response in Redis and avoiding repeated Weatherstack API calls" -
+### Redis Cloud : Reducing latency by caching city weather-response in Redis and avoiding repeated Weatherstack API calls" -
+<br>
 
 ![](src/main/resources/static/images/redis.png)
