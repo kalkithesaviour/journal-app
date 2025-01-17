@@ -1,5 +1,11 @@
 # Journal Application
-Back-end application built with Java, Spring Boot, and MongoDB, designed to securely manage user journal entries through a set of RESTful APIs exposed via Swagger. The application supports various functionalities including user registration, login, and management, all secured via JWT and OAuth 2.0 for authentication. Users can create, update, delete, and retrieve journal entries, with data being efficiently managed in a MongoDB database. Admins have access to additional features, such as creating admin users and viewing all users in the system. The app integrates with external services like Weatherstack to greet the user with weather information of his city, caching responses in Redis to reduce latency. It also utilizes Kafka for message-driven communication, particularly for processing previous week's journal entries' sentiment and sending analysis reports to users via email. Comprehensive testing is done using JUnit and Mockito, and SonarQube is used to ensure code quality throughout the development cycle. This application is built for scalability and efficiency, providing a seamless experience for users and admins alike, with features aimed at improving user engagement and performance.
+Back-end application built with Java, Spring Boot, and MongoDB, designed to securely manage user journal entries through a set of RESTful APIs exposed via Swagger.
+
+The application supports various functionalities including user registration, login, and management, all secured via JWT and OAuth 2.0 for authentication. Users can create, update, delete, and retrieve journal entries, with data being efficiently managed in a MongoDB database. Admins have access to additional features, such as creating admin users and viewing all users in the system.
+
+The app integrates with external services like Weatherstack to greet the user with weather information of his city, caching responses in Redis to reduce latency. It also utilizes Kafka for message-driven communication, particularly for processing previous week's journal entries' sentiment and sending analysis reports to users via email.
+
+Comprehensive testing is done using JUnit and Mockito, and SonarQube is used to ensure code quality throughout the development cycle. This application is built for scalability and efficiency, providing a seamless experience for users and admins alike, with features aimed at improving user engagement and performance.
 
 ### Tech Stack
 
