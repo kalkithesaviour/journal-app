@@ -96,7 +96,7 @@ Back-end application built with Java, Spring Boot, and MongoDB, designed to secu
 ### MongoDB Atlas : 'journal_db' Database and its Collections -
 
 ![](src/main/resources/static/images/mongoatlas.png)
-<br>
+<br><br>
 
 ### Redis Cloud : Reducing latency by caching city weather-response in Redis and avoiding repeated Weatherstack API calls" -
 
