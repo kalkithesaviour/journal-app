@@ -86,18 +86,14 @@ Back-end application built with Java, Spring Boot, and MongoDB, designed to secu
 <br>
 
 ### Confluent Cloud : Messages consumed from the 'weekly-sentiments' topic -
-<br>
-
 ![](src/main/resources/static/images/kafka.png)
 <br>
 
 ### Sentiment analysis of last week's journal entries sent via email to opted users -
-<br>
 
 ![](src/main/resources/static/images/sentimentmail.png)
 
 ### MongoDB Atlas : 'journal_db' Database and its Collections -
-<br>
 
 ![](src/main/resources/static/images/mongoatlas.png)
 <br>
