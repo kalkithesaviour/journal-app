@@ -88,6 +88,7 @@ Back-end application built with Java, Spring Boot, and MongoDB, designed to secu
 <br>
 
 ![](src/main/resources/static/images/kafka.png)
+<br>
 
 ### Sentiment analysis of last week's journal entries sent via email to opted users -
 <br>
@@ -98,6 +99,7 @@ Back-end application built with Java, Spring Boot, and MongoDB, designed to secu
 <br>
 
 ![](src/main/resources/static/images/mongoatlas.png)
+<br>
 
 ### Redis Cloud : Reducing latency by caching city weather-response in Redis and avoiding repeated Weatherstack API calls" -
 <br>
