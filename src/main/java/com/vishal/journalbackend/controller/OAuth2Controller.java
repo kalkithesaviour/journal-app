@@ -31,10 +31,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping("/auth/google")
+@RequestMapping("/auth")
 @Slf4j
-@Tag(name = "Google OAuth 2.0 APIs", description = "Google callback")
-public class GoogleAuthController {
+@Tag(name = "OAuth 2.0 APIs", description = "Google callback")
+public class OAuth2Controller {
 
     @Value("${spring.security.oauth2.client.registration.google.client-id}")
     private String clientId;
@@ -49,7 +49,7 @@ public class GoogleAuthController {
     private final JwtUtil jwtUtil;
 
     @Autowired
-    public GoogleAuthController(RestTemplate restTemplate, CustomUserDetailsService customUserDetailsService,
+    public OAuth2Controller(RestTemplate restTemplate, CustomUserDetailsService customUserDetailsService,
             PasswordEncoder passwordEncoder, UserRepository userRepository, JwtUtil jwtUtil) {
         this.restTemplate = restTemplate;
         this.customUserDetailsService = customUserDetailsService;
@@ -58,7 +58,7 @@ public class GoogleAuthController {
         this.jwtUtil = jwtUtil;
     }
 
-    @GetMapping("/callback")
+    @GetMapping("/google/callback")
     @Operation(summary = "Handle the Google callback function")
     public ResponseEntity<?> handleGoogleCallback(@RequestParam String code) {
         try {
