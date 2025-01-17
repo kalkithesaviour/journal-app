@@ -3,11 +3,13 @@ package com.vishal.journalbackend.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vishal.journalbackend.entity.User;
-import com.vishal.journalbackend.entity.UserDTO;
+import com.vishal.journalbackend.dto.UserDTO;
 import com.vishal.journalbackend.service.CustomUserDetailsService;
 import com.vishal.journalbackend.service.UserService;
 import com.vishal.journalbackend.util.JwtUtil;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RestController
 @RequestMapping("/public")
 @Slf4j
+@Tag(name = "Public APIs", description = "Signup, Login, and Health Check")
 public class PublicController {
 
     private final UserService userService;
@@ -43,15 +46,19 @@ public class PublicController {
     }
 
     @GetMapping("/health-check")
+    @Operation(summary = "Health check of running APIs")
     public String healthCheck() {
         return "OK";
     }
 
     @PostMapping("/signup")
+    @Operation(summary = "Create a new User")
     public ResponseEntity<String> createUser(@RequestBody UserDTO userDTO) {
         User user = new User();
         user.setUsername(userDTO.getUsername());
         user.setPassword(userDTO.getPassword());
+        user.setEmail(userDTO.getEmail());
+        user.setSentimentAnalysis(userDTO.getSentimentAnalysis());
         user.setRoles(Arrays.asList("USER"));
 
         boolean isCreated = userService.saveNewUser(user);
@@ -64,6 +71,7 @@ public class PublicController {
     }
 
     @PostMapping("/login")
+    @Operation(summary = "User login")
     public ResponseEntity<String> login(@RequestBody UserDTO userDTO) {
         try {
             authenticationManager

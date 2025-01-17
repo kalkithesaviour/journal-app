@@ -35,7 +35,7 @@ public class User {
 
     private String email;
 
-    private boolean sentimentAnalysis;
+    private Boolean sentimentAnalysis;
 
     @DBRef
     @Builder.Default
