@@ -83,6 +83,7 @@ Back-end application built with Java, Spring Boot, and MongoDB, designed to secu
 1. GET http://localhost:8081/journal-backend/auth/google/callback
 
 ![](src/main/resources/static/images/oauth2.png)
+<br>
 
 ### Confluent Cloud : Messages consumed from the 'weekly-sentiments' topic -
 <br>
@@ -102,6 +103,5 @@ Back-end application built with Java, Spring Boot, and MongoDB, designed to secu
 <br>
 
 ### Redis Cloud : Reducing latency by caching city weather-response in Redis and avoiding repeated Weatherstack API calls" -
-<br>
 
 ![](src/main/resources/static/images/redis.png)
