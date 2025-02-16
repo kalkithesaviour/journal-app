@@ -3,6 +3,7 @@ package com.vishal.journalbackend.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -25,7 +26,7 @@ public class SecurityConfig {
     private final JwtFilter jwtFilter;
 
     @Autowired
-    public SecurityConfig(CustomUserDetailsService customUserDetailsService, JwtFilter jwtFilter) {
+    public SecurityConfig(@Lazy CustomUserDetailsService customUserDetailsService, @Lazy JwtFilter jwtFilter) {
         this.customUserDetailsService = customUserDetailsService;
         this.jwtFilter = jwtFilter;
     }
