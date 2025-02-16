@@ -29,6 +29,11 @@ Comprehensive testing is done using JUnit and Mockito, and SonarQube is used to 
 - OAuth 2.0
 
 ### Screenshots:
+#### Production-ready code: SonarQube cloud Quality Gate ("Sonar way") -
+https://sonarcloud.io/summary/overall?id=vishalisvizzzard_journal-app&branch=master
+
+![](src/main/resources/static/images/SonarQube_cloud.png)
+
 #### Public APIs -
 1. GET http://localhost:8081/journal-backend/public/health-check
 
