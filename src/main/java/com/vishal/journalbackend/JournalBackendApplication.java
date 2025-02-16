@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-@SpringBootApplication(scanBasePackages = "com.vishal.journalbackend")
+@SpringBootApplication
 @EnableScheduling
 @EnableKafka
 public class JournalBackendApplication {
