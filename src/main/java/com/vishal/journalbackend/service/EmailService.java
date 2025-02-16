@@ -20,6 +20,7 @@ public class EmailService {
 
     public void sendEmail(String to, String subject, String body) {
         try {
+            log.info("Inside send email method");
             SimpleMailMessage mail = new SimpleMailMessage();
             mail.setTo(to);
             mail.setSubject(subject);
