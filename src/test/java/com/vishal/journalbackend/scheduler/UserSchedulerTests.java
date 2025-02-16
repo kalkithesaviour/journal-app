@@ -2,7 +2,6 @@ package com.vishal.journalbackend.scheduler;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,7 +16,6 @@ class UserSchedulerTests {
         this.userScheduler = userScheduler;
     }
 
-    @Disabled
     @Test
     void testFetchUsersAndSendSaMail() {
         assertDoesNotThrow(userScheduler::fetchUsersAndSendSaMail);

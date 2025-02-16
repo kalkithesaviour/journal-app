@@ -4,17 +4,18 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.vishal.journalbackend.entity.User;
 import com.vishal.journalbackend.repository.UserRepository;
 
+@SpringBootTest
 class CustomUserDetailsServiceTests {
 
     @InjectMocks
@@ -28,7 +29,6 @@ class CustomUserDetailsServiceTests {
         MockitoAnnotations.openMocks(this);
     }
 
-    @Disabled
     @Test
     void loadUserByUsernameTest() {
         when(userRepository.findByUsername(ArgumentMatchers.anyString()))

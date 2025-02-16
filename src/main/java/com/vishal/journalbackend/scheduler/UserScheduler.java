@@ -18,7 +18,10 @@ import com.vishal.journalbackend.model.SentimentData;
 import com.vishal.journalbackend.repository.UserRepositoryImpl;
 import com.vishal.journalbackend.service.EmailService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Component
+@Slf4j
 public class UserScheduler {
 
     private final UserRepositoryImpl userRepositoryImpl;
@@ -63,6 +66,7 @@ public class UserScheduler {
                 SentimentData sentimentData = SentimentData.builder().email(user.getEmail())
                         .sentiment("Sentiment for the last 7 days: " + mostFrequentSentiment).build();
                 try {
+                    log.info("Publishing message to Kafka for user: {}", user.getUsername());
                     kafkaTemplate.send("weekly-sentiments", sentimentData.getEmail(), sentimentData);
                 } catch (Exception e) {
                     emailService.sendEmail(sentimentData.getEmail(), "Sentiment for previous week",
