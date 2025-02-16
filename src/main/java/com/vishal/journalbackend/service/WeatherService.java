@@ -38,7 +38,7 @@ public class WeatherService {
                 .replace(Placeholders.API_KEY, apiKey);
         weatherResponse = restTemplate.exchange(finalAPI, HttpMethod.GET, null, WeatherResponse.class).getBody();
         if (weatherResponse != null) {
-            redisService.set("weather_of_" + city, weatherResponse, 300L);
+            redisService.set("weather_of_" + city, weatherResponse, 86400L);
         }
         return weatherResponse;
     }

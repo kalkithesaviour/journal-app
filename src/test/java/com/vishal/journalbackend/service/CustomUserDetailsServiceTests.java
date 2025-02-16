@@ -9,13 +9,11 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.vishal.journalbackend.entity.User;
 import com.vishal.journalbackend.repository.UserRepository;
 
-@SpringBootTest
 class CustomUserDetailsServiceTests {
 
     @InjectMocks
