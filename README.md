@@ -30,7 +30,7 @@ Comprehensive testing is done using JUnit and Mockito, and SonarQube is used to 
 
 ### Screenshots:
 #### Production-ready code: SonarQube cloud Quality Gate ("Sonar way") -
-https://sonarcloud.io/summary/overall?id=vishalisvizzzard_journal-app&branch=master
+https://sonarcloud.io/summary/overall?id=kalkithesaviour_journal-app&branch=master
 
 ![](src/main/resources/static/images/SonarQube_cloud.png)
 
