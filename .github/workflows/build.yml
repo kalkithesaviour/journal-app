@@ -1,10 +1,11 @@
 name: SonarQube Cloud
 on:
   push:
-    branches:
+    branches-ignore:
       - master
   pull_request:
-    types: [opened, synchronize, reopened]
+    branches-ignore:
+      - master
 jobs:
   build:
     name: Build and analyze
@@ -50,4 +51,5 @@ jobs:
           SONAR_ORG: ${{ secrets.SONAR_ORG }}
           SONAR_URL: ${{ secrets.SONAR_URL }}
           SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
+          JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=$SONAR_PROJECT_KEY
